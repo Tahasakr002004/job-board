@@ -1,7 +1,7 @@
 <x-layout :title='$tabTitle' :pageTitle='$pageTitle'>
     <h1>{{$pageTitle}}</h1>
     @foreach ($tags as $tag )
-        <h3>{{ $tag->title }}</h3>
+        <h3>{{ $tag->name }}</h3>
 
     @endforeach
 

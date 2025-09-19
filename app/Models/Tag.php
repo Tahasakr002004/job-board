@@ -2,16 +2,25 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    //
-      protected $table = 'tag';
-    //
-    protected $fillable = ['title']; // fields that can be updated
-    protected $guarded = ['id']; // cannot be updated/assigned(readonly)
-  public function tags(){
-        return $this->belongsToMany(Post::class);
+    use HasFactory, HasUuids;
+
+    protected $primaryKey = "id";
+    protected $keyType = "string";   // UUID stored as string
+    public $incrementing = false;
+
+    protected $table = 'tag';
+
+    protected $fillable = ['name'];
+    protected $guarded = ['id'];
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'post_tag');
     }
 }

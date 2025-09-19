@@ -16,17 +16,15 @@ class CommentController extends Controller
     }
 
 
-   public function createComment()
- {
-    $post = \App\Models\Post::first(); // pick an existing post
-
-    Comment::factory()->count(5)->create([
-        'post_id' => $post->id
+    public function createComment()
+  {
+    // Create 5 fake comments for post_id = 10
+    \App\Models\Comment::factory()->count(5)->create([
+        'post_id' => 10
     ]);
 
     return redirect('/comments');
- }
-
+  }
 
 
   

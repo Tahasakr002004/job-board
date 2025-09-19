@@ -16,8 +16,10 @@ class PostController extends Controller
     }
      public function createPosts()
     {
-        Post::factory(100)->create();
-        return redirect( to:'/blog');
+        
+
+        Post::factory(10)->create();
+        return response('Successful Creation', 201);
     }
 
 
@@ -26,12 +28,12 @@ class PostController extends Controller
         return view('post.show',
          data: ['post' => $post, 
          'pageTitle' => $post->pageTitle ,
-          'tabTitle'=> 'show-post']);
+         'tabTitle'=> 'show-post']);
     }
 
 
-    public function deletePosts(){
-        Post::destroy(1);
-     
+    public function deletePosts($id){
+        Post::destroy($id);
+        return response('successfully Deleted',204);
     }
 }

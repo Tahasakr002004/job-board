@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comment', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();       // UUID primary key
+            $table->uuid('post_id');             // UUID foreign key
             $table->string('author');
-            $table->string('content');
+            $table->text('content');
             $table->timestamps();
 
-            $table->foreignId('post_id')->constrained('post');
-        });
+            $table->foreign('post_id')->references('id')->on('post')->cascadeOnDelete();
+   });
+
     }
 
     /**

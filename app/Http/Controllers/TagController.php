@@ -6,44 +6,66 @@ use App\Models\Tag;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
-class TagController  extends Controller
+class TagController extends Controller
 {
-    // Get all data from model Tag
+    // Get all tags
     public function index()
     {
         $data = Tag::all();
 
-        return view('tag.index', ['tags' => $data,'pageTitle' => 'Tags-Page', 'tabTitle' => 'tag']);
+        return view('tag.index', [
+            'tags' => $data,
+            'pageTitle' => 'Tags-Page',
+            'tabTitle' => 'tag'
+        ]);
     }
-     public function createTags()
+
+    // Create 5 tags for the first post using factory
+    public function createTags()
     {
-        Tag::create([
-                'title'     => "Angular"
-            ]);
-        
+        $post = Post::first();
 
-        return redirect( to:'/tags');
-    }
+        if (!$post) {
+            return response()->json(['error' => 'No post found'], 404);
+        }
 
+        // Create 5 tags using factory
+        $tags = Tag::factory()->count(5)->create();
 
-
-    public function deleteTags(){
-        Tag::destroy(1);
-    }
-
-
-
-    public function testManyToMany(){
-        $post9 = Post::find(10);
-        $post10 = Post::find(10);
-
-        $post9->tags()->attach([1, 2]);
-        $post10->tags()->attach([1, 3]);
-
+        // Attach tags to the post via pivot table
+        $post->tags()->attach($tags->pluck('id'));
 
         return response()->json([
-            'post9' => $post9->tags,
-            'post10' => $post10->tags
+            'post' => $post->title,
+            'tags' => $tags
+        ]);
+    }
+
+    // Delete a tag by UUID
+    public function deleteTags(string $id)
+    {
+        Tag::destroy($id);
+        return redirect('/tags');
+    }
+
+    // Test Many-to-Many relation
+    public function testManyToMany()
+    {
+        $postA = Post::first();
+        $postB = Post::skip(1)->first();
+
+        $tags = Tag::factory()->count(3)->create();
+
+        if ($postA) {
+            $postA->tags()->attach([$tags[0]->id, $tags[1]->id]);
+        }
+        if ($postB) {
+            $postB->tags()->attach([$tags[0]->id, $tags[2]->id]);
+        }
+
+        return response()->json([
+            'postA' => $postA ? $postA->tags : [],
+            'postB' => $postB ? $postB->tags : []
         ]);
     }
 }
