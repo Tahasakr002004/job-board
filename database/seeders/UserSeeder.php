@@ -12,9 +12,9 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         //
-         User::create([
-            'name' => 'AdminUser',
-            'email' => 'admin@admin.com',
+         User::factory()->create([
+            'name' => 'root',
+            'email' => 'root@root.com',
             'password'=> Hash::make('12345'),
         ]);
     }

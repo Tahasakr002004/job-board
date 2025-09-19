@@ -30,7 +30,7 @@ return new class extends Migration
     {
         Schema::table('post', function (Blueprint $table) {
             //
-            $table->id('id')->primary();
+            $table->uuid('id')->primary();
             $table->string('title');
             $table->string('body');
             $table->string('author');
