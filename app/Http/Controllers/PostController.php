@@ -34,8 +34,26 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //@TODO: This will be completed in Forms
+   {
+        $validated = $request->validate([
+            'title'     => 'required|string|max:255',
+            'body'      => 'required|string|min:10',
+            'author'    => 'required|string|max:100',
+            'published' => 'required|boolean'
+        ],[
+            'title.required' => 'Field is required',            
+            'author.required' => 'Field is required',            
+            'body.required' => 'Field is required'            
+        ]
+     );
+
+        // If validation passes, you can store the post
+        $post = Post::create($validated);
+
+        return response()->json([
+            'message' => 'Post created successfully!',
+            'data'    => $post
+        ], 201);
     }
 
     /**
@@ -67,6 +85,7 @@ class PostController extends Controller
     public function update(Request $request, string $id)
     {
         //@TODO: This will be completed in Forms
+
 
     }
 

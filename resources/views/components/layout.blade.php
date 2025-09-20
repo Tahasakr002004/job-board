@@ -31,10 +31,7 @@
                <x-nav-link href="/">Dashboard</x-nav-link>
                <x-nav-link href="about">About</x-nav-link>
                <x-nav-link href="contact">ContactUs</x-nav-link>
-              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-              {{-- <a href="/" aria-current="page" class="rounded-md px-3 py-2 text-sm font-medium {{ $default }} ">Home</a>
-              <a href="/about" class="rounded-md px-3 py-2 text-sm font-medium   {{ request()->is(pattern:'about') ? $current : $default }}">About</a>
-              <a href="/contact" class="rounded-md px-3 py-2 text-sm font-medium   {{ $default }}">ContactUs</a> --}}
+               <x-nav-link href="blog">Blog</x-nav-link>
              
             </div>
           </div>
