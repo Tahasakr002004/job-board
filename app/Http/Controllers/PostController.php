@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogPostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class PostController extends Controller
     public function index()
     {
         //
-        $data = Post::cursorPaginate(5);
+        $data = Post::latest()->paginate(10);
 
         return view('post.index', ['posts' => $data,'pageTitle' => 'Blogs-Page', 'tabTitle' => 'blog']);
     }
@@ -33,41 +34,19 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-   {
-        $validated = $request->validate([
-            'title'     => 'required|string|max:255',
-            'body'      => 'required|string|min:10',
-            'author'    => 'required|string|max:100',
-            'published' => 'required|boolean'
-        ],[
-            'title.required' => 'Field is required',            
-            'author.required' => 'Field is required',            
-            'body.required' => 'Field is required'            
-        ]
-     );
+   
 
-        // If validation passes, you can store the post
-        $post = Post::create($validated);
-
-        return response()->json([
-            'message' => 'Post created successfully!',
-            'data'    => $post
-        ], 201);
-    }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-         $post = POST::findOrFail($id);
-        return view('post.show',
-         data: ['post' => $post, 
-         'pageTitle' => $post->pageTitle ,
-          'tabTitle'=> 'show-post']);
+    public function store(BlogPostRequest $request){
+        $validated = $request->validated();
+        $post = Post::create($validated);
+
+        return redirect('/blog')->with('success','Post is  successfully created');
     }
+
 
     /**
      * Show the form for editing the specified resource.

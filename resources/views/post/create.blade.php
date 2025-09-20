@@ -63,6 +63,7 @@
                             <div class="grid size-4 grid-cols-1">
                             <!-- Checkbox is now a peer -->
                             <input 
+                                value="1"
                                 id="published" 
                                 type="checkbox" 
                                 name="published" 
