@@ -1,4 +1,4 @@
-<x-layout :title='$tabTitle' :pageTitle='$pageTitle'>
+<x-layout :tabTitle='$tabTitle' :pageTitle='$pageTitle'>
     <h1>{{$pageTitle}}</h1>
     @foreach ($comments as $comment )
         <h3>{{ $comment->author }}</h3>

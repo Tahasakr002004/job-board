@@ -1,52 +1,38 @@
 <?php
 
+
 namespace App\Http\Controllers;
+
 use App\Models\Comment;
-use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Http\Requests\CommentPostRequest;
 
 class CommentController extends Controller
 {
-    
-    public function index()
+   public function store(CommentPostRequest $request, Post $post)
     {
-         $data = Comment::paginate(10);
-        return view('comment.index', ['comments' => $data,"pageTitle"=> "comments", "tabTitle" => "comment"]);
+        $comment = new Comment();
+        $comment->author = $request->author;
+        $comment->content = $request->content;
+        $comment->post_id = $post->id;
+        $comment->save();
+
+        // Redirect back to the same blog post page
+        return redirect()->route('blog.show', $post->id)
+                         ->with('success', 'Comment successfully added.');
+        // dd($post); 
     }
 
-
-
-    public function create()
+    public function destroy(Comment $comment)
     {
-        $post = \App\Models\Post::first(); 
-        Comment::factory()->count(5)->create([
-            'post_id' => $post->id
-        ]);
-
-         return response("successful Creation", 201);
+        $comment->delete();
+        return redirect()->back()->with('success', 'Comment deleted.');
     }
 
-    
-    public function store(Request $request)
-    {
-    }
-
-   
-    public function show(string $id)
-    {
-       
-    }
-
-    public function edit(string $id)
-    {
-        $comment = Comment::findOrFail($id);
-        return view("comment.edit", ["comment"=> $comment,"pageTitle"=> "comments", "tabTitle" => "edit-comment"]);
-    }
-
-    public function update(Request $request, string $id)
-    {
-    }
-
-    public function destroy(string $id)
-    {
-    }
+    // Other methods can redirect to blog index
+    public function index() { return redirect('/blog'); }
+    public function create() { return redirect('/blog'); }
+    public function show($id) { return redirect('/blog'); }
+    public function edit($id) { return redirect('/blog'); }
+    public function update(Request $request, $id) { return redirect('/blog'); }
 }

@@ -20,7 +20,7 @@ class BlogPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'     => 'bail|required|string|max:255|unique:post',
+            'title'     => "bail|required|string|max:255|unique:post,title,{$this->input('id')}",
             'body'      => 'required|string|min:10',
             'author'    => 'required|string|max:100',
             'published' => 'required|boolean',

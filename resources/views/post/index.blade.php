@@ -1,4 +1,4 @@
-<x-layout :title='$tabTitle' :pageTitle='$pageTitle'>
+<x-layout :tabTitle='$tabTitle' :pageTitle='$pageTitle'>
      @if (session('success'))
             <div class="bg-green-50 px-3 py-2">
                 {{ session('success') }}
@@ -10,11 +10,24 @@
     </a>
     </div>
     @foreach ($posts as $post )
-        <h1>{{ $post->title }}</h1>
-        <h1>{{ $post->body }}</h1>
-        <h1>{{ $post->author }}</h1>
-        <h1>{{ $post->published }}</h1>
-        
+        <div class="flex justify-between items-center border border-gray-200 px-4 py-6 my-2">
+            <div>
+               <h1>
+                <a href="/blog/{{ $post->id }}">
+                 {{$post->title}}</a>    
+              </h1>
+               <h1>{{ $post->author }}</h1>
+            </div>
+            <div>
+                <a class="text-gray-500 hover:text-green -500" href="/blog/{{ $post->id }}/edit">Edit</a>
+                <form method="POST" action="/blog/{{ $post->id }}" onsubmit="return confirm('Are you sure to delete it permenantly?')">
+                    @csrf
+                    @method('DELETE')
+                     <button class="text-red-500 hover:text-gray-500">Delete</button>
+                </form>
+                
+            </div>
+        </div>
     @endforeach
     {{ $posts->links() }}
 </x-layout>

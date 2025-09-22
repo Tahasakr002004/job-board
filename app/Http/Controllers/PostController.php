@@ -31,10 +31,6 @@ class PostController extends Controller
           return view('post.create', ['pageTitle' => 'create-Page', 'tabTitle' => 'create']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-   
 
 
     /**
@@ -53,17 +49,23 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        return view('post.edit', ['pageTitle' => 'edit-Page', 'tabTitle' => 'edit']);
+        // this function is just return view the page of form to edit - redirect to update function
+        $data = Post::findOrFail($id);
+        return view('post.edit', ['post' => $data,'pageTitle' => 'Edit', 'tabTitle' => 'edit']);
         
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BlogPostRequest $request, string $id)
     {
         //@TODO: This will be completed in Forms
+        // this function is about modifying and processesing the editing
+       $validated = $request->validated();
+       $post = Post::findOrFail($id);
+       $post->update($validated);
+       return redirect('/blog')->with('success','The Post is successfully updated');
 
 
     }
@@ -71,8 +73,19 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //@TODO: This will be completed in Forms
+
+    public function destroy(string $id){
+
+        $post = Post::findOrFail($id); // throws 404 if not found
+        $post->delete();
+
+        return redirect('/blog')
+            ->with('success', 'Post deleted successfully.');
     }
+
+    public function show(string $id){
+        $post = Post::findOrFail($id);
+        return view('post.show', ['post'=> $post]);
+    }
+
 }

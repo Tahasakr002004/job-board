@@ -1,4 +1,4 @@
-<x-layout :title='$tabTitle' :pageTitle='$pageTitle'>
+<x-layout :tabTitle='$tabTitle' :pageTitle='$pageTitle'>
     <form method="POST" action="/blog">
         @csrf
   <div class="space-y-12">
@@ -19,9 +19,6 @@
                 class="block w-full rounded-md border px-3 py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 sm:text-sm
               {{ $errors->has('title') ? 'border-red-500' : 'border-gray-300' }}"
             />
-
-                
-
             </div>
               @error('title')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
