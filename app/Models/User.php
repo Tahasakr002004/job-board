@@ -14,8 +14,8 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable;
     protected $fillable = [
         'name',
-        'email'
-        
+        'email',
+        'role'
     ];
     protected $hidden = [
         'password',
@@ -38,10 +38,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-
-
-
-
     protected function casts(): array
     {
         return [
@@ -50,7 +46,27 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+    public function posts() {
+        return $this->hasMany(Post::class);
+    }
+    
+    // Helper methods for roles
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
 
+    public function isEditor(): bool
+    {
+        return $this->role === 'editor';
+    }
+
+    public function isViewer(): bool
+    {
+        return $this->role === 'viewer';
+    }
+
+    
    
 
 

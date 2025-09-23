@@ -22,7 +22,6 @@ class BlogPostRequest extends FormRequest
         return [
             'title'     => "bail|required|string|max:255|unique:post,title,{$this->input('id')}",
             'body'      => 'required|string|min:10',
-            'author'    => 'required|string|max:100',
             'published' => 'required|boolean',
         ];
     }
@@ -40,10 +39,6 @@ class BlogPostRequest extends FormRequest
             'body.required'    => 'Body is required.',
             'body.string'      => 'Body must be text.',
             'body.min'         => 'Body must be at least 10 characters.',
-
-            'author.required'  => 'Author name is required.',
-            'author.string'    => 'Author must be a valid name.',
-            'author.max'       => 'Author may not be greater than 100 characters.',
 
             'published.required' => 'Published field is required.',
             'published.boolean'  => 'Published must be true or false.',

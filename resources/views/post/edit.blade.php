@@ -2,7 +2,7 @@
 
     <form method="POST" action="/blog/{{ $post->id }}">
         @csrf
-        @method('PUT')
+        @method('PATCH')
         <input type="hidden" name="id" value="{{ $post->id }}">
   <div class="space-y-12">
     <div class="border-b border-gray-900/10 pb-12">
@@ -31,20 +31,7 @@
                 @enderror
         </div>
 
-            <div class="sm:col-span-3">
-               <label for="author" class="block text-sm/6 font-medium text-gray-900">Author</label>
-               <div class="mt-2">
-                 <input 
-                    value="{{old('title',$post->author)}}"
-                   id="author" type="text" name="author"
-                    class="block w-full rounded-md border px-3 py-1.5 text-base text-gray-900 placeholder:text-gray-400 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 sm:text-sm
-              {{ $errors->has('author') ? 'border-red-500' : 'border-gray-300' }}"
-                />
-               </div>
-                @error('author')
-                  <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
+           
 
             <div class="col-span-full">
               <label for="body" class="block text-sm/6 font-medium text-gray-900">body</label>

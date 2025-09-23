@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('comment', function (Blueprint $table) {
             $table->uuid('id')->primary();       // UUID primary key
             $table->uuid('post_id');             // UUID foreign key
-            $table->string('author');
             $table->text('content');
             $table->timestamps();
 

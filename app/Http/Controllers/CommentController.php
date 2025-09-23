@@ -18,7 +18,7 @@ class CommentController extends Controller
         $comment->save();
 
         // Redirect back to the same blog post page
-        return redirect()->route('blog.show', $post->id)
+        return redirect("/blog/{$post->id}")
                          ->with('success', 'Comment successfully added.');
         // dd($post); 
     }
